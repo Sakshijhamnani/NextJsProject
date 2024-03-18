@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import MeetupList from '../components/meetups/MeetupList'
 import Layout from '../components/layout/Layout'
 import { MongoClient } from 'mongodb'
+import Head from 'next/head';
 
 // const DUMMY_MEETUPS=[
 //   {
@@ -34,8 +35,15 @@ const HomePage = (props) => {
 
  
   return (
-   
+   <Fragment>
+   <Head>
+        <title>React Meetups</title>
+        <meta name='description' 
+        content='Browse a huge list of highly active react meetups!'
+        />
+      </Head>
    <MeetupList meetups={props.meetups }/>
+   </Fragment>
  
   )
 }
@@ -57,6 +65,7 @@ export async function getStaticProps(){
   const db=client.db();
 
   const meetupsCollection=db.collection('meetups')
+  
   const meetups= await meetupsCollection.find().toArray();
  
   client.close();
